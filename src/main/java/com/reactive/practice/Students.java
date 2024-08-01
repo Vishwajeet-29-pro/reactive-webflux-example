@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.InsertOnlyProperty;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -16,6 +19,7 @@ import java.util.UUID;
 @Table("students")
 public class Students {
 
+    @Id
     private UUID uuid;
     private String first_name;
     private String last_name;
@@ -23,7 +27,7 @@ public class Students {
     private String email;
     private String address;
     private String gender;
-    private Date enrollment_date;
+    private LocalDateTime enrollment_date;
     private String course;
     private double percentage;
     private String status;
