@@ -20,7 +20,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Mono<Student> getStudentById(UUID uuid) {
-        return null;
+        return studentRepository.findById(uuid);
     }
 
     @Override

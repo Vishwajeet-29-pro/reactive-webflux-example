@@ -55,4 +55,17 @@ public class StudentServiceTest {
 
         verify(studentRepository, times(1)).save(any(Student.class));
     }
+
+    @Test
+    public void getStudentById_ShouldReturnsStudent() {
+        when(studentRepository.findById(any(UUID.class))).thenReturn(Mono.just(student));
+
+        Mono<Student> foundStudent = studentService.getStudentById(student.getUuid());
+
+        StepVerifier.create(foundStudent)
+                .expectNext(student)
+                .verifyComplete();
+
+        verify(studentRepository, times(1)).findById(any(UUID.class));
+    }
 }
