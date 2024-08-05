@@ -25,7 +25,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Flux<Student> getAllStudents() {
-        return null;
+        return studentRepository.findAll();
     }
 
     @Override

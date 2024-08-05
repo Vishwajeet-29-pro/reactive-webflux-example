@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -67,5 +68,18 @@ public class StudentServiceTest {
                 .verifyComplete();
 
         verify(studentRepository, times(1)).findById(any(UUID.class));
+    }
+
+    @Test
+    public void getAllStudents_ShouldReturnListOfStudents() {
+        when(studentRepository.findAll()).thenReturn(Flux.just(student));
+
+        Flux<Student> studentFlux = studentService.getAllStudents();
+
+        StepVerifier.create(studentFlux)
+                .expectNext(student)
+                .verifyComplete();
+
+        verify(studentRepository, times(1)).findAll();
     }
 }
