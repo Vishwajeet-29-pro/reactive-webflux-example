@@ -11,11 +11,11 @@ import java.util.UUID;
 public class StudentServiceImpl implements StudentService {
 
     @Autowired
-    private StudentService studentService;
+    private StudentRepository studentRepository;
 
     @Override
     public Mono<Student> createStudent(Student student) {
-        return null;
+        return studentRepository.save(student);
     }
 
     @Override
