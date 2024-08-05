@@ -7,9 +7,9 @@ import java.util.UUID;
 
 public interface StudentService {
 
-    Mono<Students> createStudent(Students students);
-    Mono<Students> getStudentById(UUID uuid);
-    Flux<Students> getAllStudents();
-    Mono<Students> updateStudentDetailsById(UUID uuid, Students students);
+    Mono<Student> createStudent(Student student);
+    Mono<Student> getStudentById(UUID uuid);
+    Flux<Student> getAllStudents();
+    Mono<Student> updateStudentDetailsById(UUID uuid, Student student);
     Mono<Void> deleteStudentById(UUID uuid);
 }
