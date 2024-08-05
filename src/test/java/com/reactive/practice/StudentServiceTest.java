@@ -21,7 +21,7 @@ public class StudentServiceTest {
     private StudentRepository studentRepository;
 
     @InjectMocks
-    private StudentService studentService;
+    private StudentServiceImpl studentService;
 
     private Student student;
 
