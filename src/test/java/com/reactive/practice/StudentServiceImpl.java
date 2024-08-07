@@ -30,7 +30,20 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Mono<Student> updateStudentDetailsById(UUID uuid, Student student) {
-        return null;
+        return studentRepository.findById(uuid).flatMap(
+          existingStudent -> {
+              existingStudent.setFirst_name(student.getFirst_name());
+              existingStudent.setLast_name(student.getLast_name());
+              existingStudent.setAge(student.getAge());
+              existingStudent.setEmail(student.getEmail());
+              existingStudent.setAddress(student.getAddress());
+              existingStudent.setGender(student.getGender());
+              existingStudent.setEnrollment_date(student.getEnrollment_date());
+              existingStudent.setCourse(student.getCourse());
+              existingStudent.setPercentage(student.getPercentage());
+              existingStudent.setStatus(student.getStatus());
+              return studentRepository.save(existingStudent);
+          });
     }
 
     @Override
