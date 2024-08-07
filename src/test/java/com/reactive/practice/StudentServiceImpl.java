@@ -48,6 +48,6 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Mono<Void> deleteStudentById(UUID uuid) {
-        return null;
+        return studentRepository.deleteById(uuid);
     }
 }

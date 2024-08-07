@@ -99,4 +99,16 @@ public class StudentServiceTest {
         verify(studentRepository, times(1)).findById(any(UUID.class));
         verify(studentRepository, times(1)).save(any(Student.class));
     }
+
+    @Test
+    public void deleteStudent_ShouldDeleteStudent() {
+        when(studentRepository.deleteById(any(UUID.class))).thenReturn(Mono.empty());
+
+        Mono<Void> result = studentService.deleteStudentById(student.getUuid());
+
+        StepVerifier.create(result)
+                .verifyComplete();
+
+        verify(studentRepository, times(1)).deleteById(any(UUID.class));
+    }
 }
