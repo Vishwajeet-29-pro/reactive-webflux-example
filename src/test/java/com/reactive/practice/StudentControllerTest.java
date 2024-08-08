@@ -47,7 +47,7 @@ public class StudentControllerTest {
         when(studentService.createStudent(any(Student.class))).thenReturn(Mono.just(student));
 
         webTestClient.post()
-                .uri("/students")
+                .uri("/api/students")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(student)
                 .exchange()
