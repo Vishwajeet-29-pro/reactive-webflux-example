@@ -79,4 +79,18 @@ public class StudentControllerTest {
                 .exchange()
                 .expectStatus().isNotFound();
     }
+
+    @Test
+    public void updateStudentDetailsBy_ShouldReturnUpdatedStudent() {
+        when(studentService.updateStudentDetailsById(any(UUID.class),student)).thenReturn(Mono.just(student));
+
+        webTestClient.put()
+                .uri("/{id}", student.getUuid())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(student)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Student.class)
+                .isEqualTo(student);
+    }
 }
