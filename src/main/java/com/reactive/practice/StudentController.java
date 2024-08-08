@@ -41,4 +41,11 @@ public class StudentController {
         return studentService.updateStudentDetailsById(id, student)
                 .map(ResponseEntity::ok).defaultIfEmpty(ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/{id}")
+    public Mono<ResponseEntity<Void>> deleteStudentById(@PathVariable UUID id) {
+        return studentService.deleteStudentById(id)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
 }
