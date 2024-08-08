@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
@@ -23,5 +25,11 @@ public class StudentController {
     @GetMapping
     public Flux<Student> getAllStudent() {
         return studentService.getAllStudents();
+    }
+
+    @GetMapping("/{id}")
+    public Mono<ResponseEntity<Student>> getStudentById(@PathVariable UUID id) {
+        return studentService.getStudentById(id)
+                .map(student -> ResponseEntity.status(HttpStatus.FOUND).body(student));
     }
 }

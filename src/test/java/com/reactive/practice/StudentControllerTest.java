@@ -69,4 +69,14 @@ public class StudentControllerTest {
                 .hasSize(1)
                 .contains(student);
     }
+
+    @Test
+    public void getStudentById_ShouldReturnStudent() {
+        when(studentService.getStudentById(any(UUID.class))).thenReturn(Mono.just(student));
+
+        webTestClient.get()
+                .uri("/api/student/{id}", UUID.randomUUID())
+                .exchange()
+                .expectStatus().isNotFound();
+    }
 }
