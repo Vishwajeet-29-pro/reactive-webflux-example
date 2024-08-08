@@ -32,4 +32,13 @@ public class StudentController {
         return studentService.getStudentById(id)
                 .map(student -> ResponseEntity.status(HttpStatus.FOUND).body(student));
     }
+
+    @PutMapping("/{id}")
+    public Mono<ResponseEntity<Student>> updateStudentById(
+            @PathVariable UUID id,
+            @RequestBody Student student
+    ) {
+        return studentService.updateStudentDetailsById(id, student)
+                .map(ResponseEntity::ok).defaultIfEmpty(ResponseEntity.notFound().build());
+    }
 }
