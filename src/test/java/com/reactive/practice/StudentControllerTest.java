@@ -82,10 +82,10 @@ public class StudentControllerTest {
 
     @Test
     public void updateStudentDetailsBy_ShouldReturnUpdatedStudent() {
-        when(studentService.updateStudentDetailsById(any(UUID.class),student)).thenReturn(Mono.just(student));
+        when(studentService.updateStudentDetailsById(any(UUID.class), eq(student))).thenReturn(Mono.just(student));
 
         webTestClient.put()
-                .uri("/{id}", student.getUuid())
+                .uri("/api/students/{id}", student.getUuid())
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(student)
                 .exchange()
