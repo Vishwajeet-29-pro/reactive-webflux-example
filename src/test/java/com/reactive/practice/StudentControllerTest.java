@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -54,5 +55,18 @@ public class StudentControllerTest {
                 .expectStatus().isCreated()
                 .expectBody(Student.class)
                 .isEqualTo(student);
+    }
+
+    @Test
+    public void getAllStudents_ShouldReturnAllStudents() {
+        when(studentService.getAllStudents()).thenReturn(Flux.just(student));
+
+        webTestClient.get()
+                .uri("/api/students")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(Student.class)
+                .hasSize(1)
+                .contains(student);
     }
 }
