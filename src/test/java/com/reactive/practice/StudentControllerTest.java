@@ -93,4 +93,15 @@ public class StudentControllerTest {
                 .expectBody(Student.class)
                 .isEqualTo(student);
     }
+
+    @Test
+    public void deleteStudent_ShouldReturnNotFound() {
+        when(studentService.deleteStudentById(any(UUID.class)))
+                .thenReturn(Mono.error(new RuntimeException("student not found")));
+
+        webTestClient.delete()
+                .uri("/api/student/{id}", UUID.randomUUID())
+                .exchange()
+                .expectStatus().isNotFound();
+    }
 }
