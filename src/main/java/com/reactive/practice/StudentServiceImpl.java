@@ -1,5 +1,6 @@
 package com.reactive.practice;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -8,10 +9,10 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     @Override
     public Mono<Student> createStudent(Student student) {
