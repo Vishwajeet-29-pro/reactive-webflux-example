@@ -1,6 +1,6 @@
 package com.reactive.practice;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +10,16 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/students")
+@RequestMapping("/students")
+@RequiredArgsConstructor
 public class StudentController {
 
-    @Autowired
-    private StudentService studentService;
+    private final StudentService studentService;
+
+    @GetMapping("/test")
+    public String index() {
+        return "this is test endpoint.";
+    }
 
     @PostMapping
     public Mono<ResponseEntity<Student>> createStudent(@RequestBody Student student) {
