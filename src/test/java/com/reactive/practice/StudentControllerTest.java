@@ -48,7 +48,7 @@ public class StudentControllerTest {
         when(studentService.createStudent(any(Student.class))).thenReturn(Mono.just(student));
 
         webTestClient.post()
-                .uri("/api/students")
+                .uri("/students")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(student)
                 .exchange()
@@ -62,7 +62,7 @@ public class StudentControllerTest {
         when(studentService.getAllStudents()).thenReturn(Flux.just(student));
 
         webTestClient.get()
-                .uri("/api/students")
+                .uri("/students")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(Student.class)
@@ -75,7 +75,7 @@ public class StudentControllerTest {
         when(studentService.getStudentById(any(UUID.class))).thenReturn(Mono.just(student));
 
         webTestClient.get()
-                .uri("/api/student/{id}", UUID.randomUUID())
+                .uri("/student/{id}", UUID.randomUUID())
                 .exchange()
                 .expectStatus().isNotFound();
     }
@@ -85,7 +85,7 @@ public class StudentControllerTest {
         when(studentService.updateStudentDetailsById(any(UUID.class), eq(student))).thenReturn(Mono.just(student));
 
         webTestClient.put()
-                .uri("/api/students/{id}", student.getUuid())
+                .uri("/students/{id}", student.getUuid())
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(student)
                 .exchange()
@@ -100,7 +100,7 @@ public class StudentControllerTest {
                 .thenReturn(Mono.error(new RuntimeException("student not found")));
 
         webTestClient.delete()
-                .uri("/api/student/{id}", UUID.randomUUID())
+                .uri("/student/{id}", UUID.randomUUID())
                 .exchange()
                 .expectStatus().isNotFound();
     }
