@@ -24,18 +24,21 @@ public class StudentController {
     @PostMapping
     public Mono<ResponseEntity<Student>> createStudent(@RequestBody Student student) {
         return studentService.createStudent(student)
-                .map(createdStudent -> ResponseEntity.status(HttpStatus.CREATED).body(createdStudent));
+                .map(createdStudent -> ResponseEntity.status(HttpStatus.CREATED).body(createdStudent))
+                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()));
     }
 
     @GetMapping
     public Flux<Student> getAllStudent() {
-        return studentService.getAllStudents();
+        return studentService.getAllStudents()
+                .onErrorResume(e -> Flux.empty());
     }
 
     @GetMapping("/{id}")
     public Mono<ResponseEntity<Student>> getStudentById(@PathVariable UUID id) {
         return studentService.getStudentById(id)
-                .map(student -> ResponseEntity.status(HttpStatus.FOUND).body(student));
+                .map(student -> ResponseEntity.status(HttpStatus.FOUND).body(student))
+                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()));
     }
 
     @PutMapping("/{id}")
@@ -44,13 +47,15 @@ public class StudentController {
             @RequestBody Student student
     ) {
         return studentService.updateStudentDetailsById(id, student)
-                .map(ResponseEntity::ok).defaultIfEmpty(ResponseEntity.notFound().build());
+                .map(ResponseEntity::ok).defaultIfEmpty(ResponseEntity.notFound().build())
+                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()));
     }
 
     @DeleteMapping("/{id}")
     public Mono<ResponseEntity<Void>> deleteStudentById(@PathVariable UUID id) {
         return studentService.deleteStudentById(id)
                 .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+                .defaultIfEmpty(ResponseEntity.notFound().build())
+                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()));
     }
 }
