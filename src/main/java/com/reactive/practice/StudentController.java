@@ -12,6 +12,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/students")
 @RequiredArgsConstructor
+@SuppressWarnings("unused")
 public class StudentController {
 
     private final StudentService studentService;
