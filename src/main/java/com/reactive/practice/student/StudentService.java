@@ -1,4 +1,4 @@
-package com.reactive.practice;
+package com.reactive.practice.student;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

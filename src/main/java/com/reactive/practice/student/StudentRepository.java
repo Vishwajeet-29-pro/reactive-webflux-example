@@ -1,4 +1,4 @@
-package com.reactive.practice;
+package com.reactive.practice.student;
 
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 

@@ -1,4 +1,4 @@
-package com.reactive.practice;
+package com.reactive.practice.student;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
