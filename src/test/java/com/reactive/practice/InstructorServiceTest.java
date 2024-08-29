@@ -2,17 +2,54 @@ package com.reactive.practice;
 
 import com.reactive.practice.instructor.InstructorRepository;
 import com.reactive.practice.instructor.Instructors;
+import com.reactive.practice.student.Student;
+import com.reactive.practice.student.StudentRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.UUID;
 
 public class InstructorServiceTest {
 
     @Mock
     private InstructorRepository instructorRepository;
 
+    @Mock
+    private StudentRepository studentRepository;
+
     @InjectMocks
     private InstructorServiceImpl instructorService;
 
     private Instructors instructors;
+    private Student student;
 
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+
+        student = new Student();
+        student.setUuid(UUID.randomUUID());
+        student.setFirst_name("John");
+        student.setLast_name("Wick");
+        student.setAge(17);
+        student.setEmail("johnwick22@example.com");
+        student.setGender("Male");
+        student.setAddress("123 Lane Xyz city");
+        student.setEnrollment_date(LocalDateTime.now());
+        student.setCourse("Computer science");
+        student.setStatus("Active");
+        student.setPercentage(89.5);
+
+        instructors = new Instructors();
+        instructors.setId(UUID.randomUUID());
+        instructors.setFirstName("Tom");
+        instructors.setLastName("Holland");
+        instructors.setEmail("tomholland@example.com");
+        instructors.setDepartment("Science");
+        instructors.setStudentIds(Arrays.asList(student.getUuid()));
+    }
 }
