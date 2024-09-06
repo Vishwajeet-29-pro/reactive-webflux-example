@@ -1,14 +1,12 @@
-package com.reactive.practice;
+package com.reactive.practice.instructor;
 
-import com.reactive.practice.instructor.InstructorRepository;
-import com.reactive.practice.instructor.InstructorService;
-import com.reactive.practice.instructor.Instructors;
 import com.reactive.practice.student.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,7 +19,20 @@ public class InstructorServiceImpl implements InstructorService {
 
     @Override
     public Mono<Instructors> createInstructor(Instructors instructors) {
-        return null;
+        List<UUID> studentIds = instructors.getStudentIds();
+
+        // Use Flux to verify that all student IDs exist in the student repository
+        return Flux.fromIterable(studentIds)
+                .flatMap(studentRepository::findById)
+                .collectList() // Collect all found students
+                .flatMap(students -> {
+                    // Check if the number of found students matches the number of student IDs
+                    if (students.size() != studentIds.size()) {
+                        return Mono.error(new IllegalArgumentException("One or more student IDs are invalid"));
+                    }
+                    // If all student IDs are valid, save the instructor
+                    return instructorRepository.save(instructors);
+                });
     }
 
     @Override
