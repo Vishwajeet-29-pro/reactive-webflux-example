@@ -1,17 +1,24 @@
 package com.reactive.practice;
 
 import com.reactive.practice.instructor.InstructorRepository;
+import com.reactive.practice.instructor.InstructorServiceImpl;
 import com.reactive.practice.instructor.Instructors;
 import com.reactive.practice.student.Student;
 import com.reactive.practice.student.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 public class InstructorServiceTest {
 
@@ -50,6 +57,23 @@ public class InstructorServiceTest {
         instructors.setLastName("Holland");
         instructors.setEmail("tomholland@example.com");
         instructors.setDepartment("Science");
-        instructors.setStudentIds(Arrays.asList(student.getUuid()));
+        instructors.setStudentIds(Arrays.asList(student.getUuid())); // Associated student
     }
+
+    @Test
+    public void createInstructor_WithAssociatedStudents_ShouldReturnInstructor() {
+        when(studentRepository.findById(student.getUuid())).thenReturn(Mono.just(student));
+        when(instructorRepository.save(any(Instructors.class))).thenReturn(Mono.just(instructors));
+
+        Mono<Instructors> createInstructor = instructorService.createInstructor(instructors);
+
+        StepVerifier.create(createInstructor)
+                .expectNext(instructors)
+                .verifyComplete();
+
+        verify(instructorRepository, times(1)).save(any(Instructors.class));
+
+        verify(studentRepository, times(1)).findById(student.getUuid());
+    }
+
 }
