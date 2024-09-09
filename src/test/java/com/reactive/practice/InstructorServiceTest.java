@@ -102,4 +102,21 @@ public class InstructorServiceTest {
 
         verify(instructorRepository, times(1)).findAll();
     }
+
+    @Test
+    public void updateInstructorById_ShouldReturnsInstructor() {
+        when(instructorRepository.findById(any(UUID.class))).thenReturn(Mono.just(instructors));
+        when(instructorRepository.save(any(Instructors.class))).thenReturn(Mono.just(instructors));
+
+        instructors.setFirstName("baba");
+
+        Mono<Instructors> updatedInstructor = instructorService.updateInstructorById(instructors.getId(), instructors);
+
+        StepVerifier.create(updatedInstructor)
+                .expectNextMatches(s -> s.getFirstName().equals("baba"))
+                .verifyComplete();
+
+        verify(instructorRepository, times(1)).findById(any(UUID.class));
+        verify(instructorRepository, times(1)).save(any(Instructors.class));
+    }
 }
