@@ -42,7 +42,7 @@ public class InstructorServiceImpl implements InstructorService {
 
     @Override
     public Flux<Instructors> getAllInstructors() {
-        return null;
+        return instructorRepository.findAll();
     }
 
     @Override
