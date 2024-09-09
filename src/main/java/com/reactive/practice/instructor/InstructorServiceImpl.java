@@ -47,7 +47,15 @@ public class InstructorServiceImpl implements InstructorService {
 
     @Override
     public Mono<Instructors> updateInstructorById(UUID instructorId, Instructors instructors) {
-        return null;
+        return instructorRepository.findById(instructorId)
+                .flatMap(existingInstructor -> {
+                    existingInstructor.setFirstName(instructors.getFirstName());
+                    existingInstructor.setLastName(instructors.getLastName());
+                    existingInstructor.setEmail(instructors.getEmail());
+                    existingInstructor.setDepartment(instructors.getDepartment());
+                    existingInstructor.setStudentIds(instructors.getStudentIds());
+                    return instructorRepository.save(existingInstructor);
+                });
     }
 
     @Override
