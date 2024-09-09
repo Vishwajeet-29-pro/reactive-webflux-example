@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -76,4 +77,16 @@ public class InstructorServiceTest {
         verify(studentRepository, times(1)).findById(student.getUuid());
     }
 
+    @Test
+    public void getInstructorById_ShouldReturnsInstructor() {
+        when(instructorRepository.findById(any(UUID.class))).thenReturn(Mono.just(instructors));
+
+        Mono<Instructors> foundInstructor = instructorService.getInstructorsById(student.getUuid());
+
+        StepVerifier.create(foundInstructor)
+                .expectNext(instructors)
+                .verifyComplete();
+
+        verify(instructorRepository, times(1)).findById(any(UUID.class));
+    }
 }
