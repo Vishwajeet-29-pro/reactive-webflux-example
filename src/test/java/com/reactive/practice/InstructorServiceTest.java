@@ -89,4 +89,17 @@ public class InstructorServiceTest {
 
         verify(instructorRepository, times(1)).findById(any(UUID.class));
     }
+
+    @Test
+    public void getAllInstructors_ShouldReturnListOfInstructors() {
+        when(instructorRepository.findAll()).thenReturn(Flux.just(instructors));
+
+        Flux<Instructors> instructorsFlux = instructorService.getAllInstructors();
+
+        StepVerifier.create(instructorsFlux)
+                .expectNext(instructors)
+                .verifyComplete();
+
+        verify(instructorRepository, times(1)).findAll();
+    }
 }
