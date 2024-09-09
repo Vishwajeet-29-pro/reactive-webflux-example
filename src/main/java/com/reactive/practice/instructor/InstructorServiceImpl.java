@@ -37,7 +37,7 @@ public class InstructorServiceImpl implements InstructorService {
 
     @Override
     public Mono<Instructors> getInstructorsById(UUID instructorId) {
-        return null;
+        return instructorRepository.findById(instructorId);
     }
 
     @Override
