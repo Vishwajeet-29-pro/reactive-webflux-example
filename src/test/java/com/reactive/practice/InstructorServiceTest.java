@@ -119,4 +119,16 @@ public class InstructorServiceTest {
         verify(instructorRepository, times(1)).findById(any(UUID.class));
         verify(instructorRepository, times(1)).save(any(Instructors.class));
     }
+
+    @Test
+    public void deleteInstructor_ShouldDeleteInstructor() {
+        when(instructorRepository.deleteById(any(UUID.class))).thenReturn(Mono.empty());
+
+        Mono<Void> result = instructorService.deleteInstructorById(instructors.getId());
+
+        StepVerifier.create(result)
+                .verifyComplete();
+
+        verify(instructorRepository, times(1)).deleteById(any(UUID.class));
+    }
 }
