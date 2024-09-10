@@ -60,6 +60,6 @@ public class InstructorServiceImpl implements InstructorService {
 
     @Override
     public Mono<Void> deleteInstructorById(UUID instructorId) {
-        return null;
+        return instructorRepository.deleteById(instructorId);
     }
 }
