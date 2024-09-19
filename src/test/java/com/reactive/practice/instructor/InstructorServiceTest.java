@@ -1,8 +1,5 @@
-package com.reactive.practice;
+package com.reactive.practice.instructor;
 
-import com.reactive.practice.instructor.InstructorRepository;
-import com.reactive.practice.instructor.InstructorServiceImpl;
-import com.reactive.practice.instructor.Instructors;
 import com.reactive.practice.student.Student;
 import com.reactive.practice.student.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
